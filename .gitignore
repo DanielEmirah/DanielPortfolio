@@ -1,0 +1,9 @@
+﻿# Ignorer les fichiers compilés Python
+__pycache__/
+*.pyc
+
+# Ignorer l’environnement virtuel
+.env/
+
+# Autres fichiers inutiles
+*.log
