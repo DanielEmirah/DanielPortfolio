@@ -1,0 +1,435 @@
+/* Feuille de style principale du portfolio */
+
+/* ============================================
+   VARIABLES CSS ET RESET
+   ============================================ */
+
+/* Définition des variables de couleurs et espacements */
+:root {
+    /* Palette de couleurs */
+    --primary-color: #6366f1;      /* Couleur principale (indigo) */
+    --secondary-color: #8b5cf6;    /* Couleur secondaire (violet) */
+    --accent-color: #ec4899;       /* Couleur d'accentuation (rose) */
+    --dark-bg: #0f172a;            /* Fond sombre */
+    --light-bg: #f8fafc;           /* Fond clair */
+    --text-dark: #1e293b;          /* Texte sombre */
+    --text-light: #64748b;         /* Texte clair */
+    --white: #ffffff;              /* Blanc */
+    
+    /* Espacements */
+    --spacing-xs: 0.5rem;          /* 8px */
+    --spacing-sm: 1rem;            /* 16px */
+    --spacing-md: 2rem;            /* 32px */
+    --spacing-lg: 4rem;            /* 64px */
+    --spacing-xl: 6rem;            /* 96px */
+    
+    /* Typographie */
+    --font-family: 'Poppins', sans-serif;
+    --font-size-base: 1rem;        /* 16px */
+    --font-size-lg: 1.125rem;      /* 18px */
+    --font-size-xl: 1.5rem;        /* 24px */
+    --font-size-2xl: 2rem;         /* 32px */
+    --font-size-3xl: 3rem;         /* 48px */
+    
+    /* Bordures et ombres */
+    --border-radius: 12px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Reset CSS pour une base cohérente */
+* {
+    margin: 0;                     /* Supprime les marges par défaut */
+    padding: 0;                    /* Supprime les paddings par défaut */
+    box-sizing: border-box;        /* Inclut padding et border dans la largeur */
+}
+
+/* Styles de base pour le body */
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;              /* Hauteur de ligne pour la lisibilité */
+    color: var(--text-dark);
+    background-color: var(--light-bg);
+    overflow-x: hidden;             /* Évite le défilement horizontal */
+}
+
+/* Styles pour les liens */
+a {
+    text-decoration: none;          /* Supprime le soulignement */
+    color: inherit;                 /* Hérite de la couleur du parent */
+    transition: var(--transition);  /* Animation sur les changements */
+}
+
+/* Style au survol des liens */
+a:hover {
+    color: var(--primary-color);
+}
+
+/* ============================================
+   HEADER ET NAVIGATION
+   ============================================ */
+
+/* En-tête fixe en haut de la page */
+.header {
+    position: fixed;                /* Reste en haut lors du scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    z-index: 1000;                  /* Au-dessus des autres éléments */
+    padding: var(--spacing-sm) 0;
+}
+
+/* Conteneur de la navigation */
+.navbar {
+    display: flex;                  /* Utilise Flexbox */
+    justify-content: space-between; /* Espace entre logo et menu */
+    align-items: center;            /* Centre verticalement */
+    max-width: 1200px;
+    margin: 0 auto;                 /* Centre horizontalement */
+    padding: 0 var(--spacing-md);
+}
+
+/* Logo */
+.logo a {
+    font-size: var(--font-size-xl);
+    font-weight: 700;               /* Gras */
+    color: var(--primary-color);
+}
+
+/* Menu de navigation */
+.nav-menu {
+    display: flex;                  /* Affichage horizontal */
+    list-style: none;               /* Supprime les puces */
+    gap: var(--spacing-md);         /* Espacement entre les liens */
+}
+
+/* Liens du menu */
+.nav-menu a {
+    font-weight: 500;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+/* Survol des liens du menu */
+.nav-menu a:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Bouton hamburger (menu mobile) */
+.hamburger {
+    display: none;                  /* Caché par défaut (desktop) */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+/* Barres du hamburger */
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-dark);
+    margin: 3px 0;
+    transition: var(--transition);
+}
+
+/* ============================================
+   CONTENU PRINCIPAL
+   ============================================ */
+
+/* Espacement pour le contenu (évite qu'il passe sous le header) */
+.main-content {
+    margin-top: 80px;               /* Hauteur du header fixe */
+}
+
+/* Conteneur générique */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* ============================================
+   SECTION HERO (PAGE D'ACCUEIL)
+   ============================================ */
+
+/* Section principale de la page d'accueil */
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+    gap: var(--spacing-lg);
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Hauteur de l'écran moins le header */
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+/* Contenu textuel du hero */
+.hero-content {
+    max-width: 600px;
+}
+
+/* Titre principal */
+.hero-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Texte mis en évidence */
+.highlight {
+    color: var(--primary-color);
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Sous-titre */
+.hero-subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Description */
+.hero-description {
+    font-size: var(--font-size-lg);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Conteneur des boutons */
+.hero-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;                /* Passe à la ligne si nécessaire */
+}
+
+/* Image du hero */
+.hero-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 50%;             /* Image ronde */
+    box-shadow: var(--box-shadow);
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+
+/* Style de base des boutons */
+.btn {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+/* Bouton primaire */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Survol bouton primaire */
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);    /* Effet de levée */
+    box-shadow: var(--box-shadow);
+}
+
+/* Bouton secondaire */
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+/* Survol bouton secondaire */
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+/* Espacement des sections */
+section {
+    padding: var(--spacing-xl) 0;
+}
+
+/* Titre de section */
+.section-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Sous-titre de section */
+.section-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================
+   GRILLE DE PROJETS
+   ============================================ */
+
+/* Grille responsive des projets */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Carte de projet */
+.project-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;               /* Cache ce qui dépasse */
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+/* Survol de la carte */
+.project-card:hover {
+    transform: translateY(-10px);   /* Élève la carte */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Image du projet */
+.project-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+/* Image responsive */
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;              /* Couvre la zone sans déformer */
+    transition: var(--transition);
+}
+
+/* Zoom de l'image au survol */
+.project-card:hover .project-image img {
+    transform: scale(1.1);
+}
+
+/* Overlay sur l'image */
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(99, 102, 241, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;                     /* Invisible par défaut */
+    transition: var(--transition);
+}
+
+/* Affiche l'overlay au survol */
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+
+/* Contenu de la carte */
+.project-content {
+    padding: var(--spacing-md);
+}
+
+/* Titre du projet */
+.project-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Description du projet */
+.project-description {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Tags des technologies */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+/* Style d'un tag */
+.tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablettes et petits écrans */
+@media (max-width: 768px) {
+    /* Hero en une colonne */
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    /* Cache le menu desktop */
+    .nav-menu {
+        display: none;
+    }
+    
+    /* Affiche le bouton hamburger */
+    .hamburger {
+        display: flex;
+    }
+    
+    /* Réduit la taille des titres */
+    .hero-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    /* Centre l'image */
+    .hero-image {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Petits mobiles */
+@media (max-width: 480px) {
+    /* Réduit encore les espacements */
+    :root {
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+    }
+    
+    /* Projets sur une colonne */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
