@@ -1,0 +1,160 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+
+{% block title %}Accueil - Mon Portfolio{% endblock %}
+
+
+{% block content %}
+<!-- Section Hero (bannière d'accueil) -->
+<section class="hero">
+    <div class="hero-content">
+        <!-- Vérification si un profil existe -->
+        {% if profile %}
+            <!-- Salutation et titre professionnel -->
+            <h1 class="hero-title">
+                Bonjour, je suis <span class="highlight">{{ profile.full_name }}</span>
+            </h1>
+            <p class="hero-subtitle">{{ profile.title }}</p>
+            
+            <!-- Description courte -->
+            <p class="hero-description">
+                {{ profile.bio|truncatewords:30 }}
+            </p>
+            
+            <!-- Boutons d'action -->
+            <div class="hero-buttons">
+                <!-- Bouton vers les projets -->
+                <a href="{% url 'projects' %}" class="btn btn-primary">
+                    Voir mes projets
+                </a>
+                <!-- Bouton vers le contact -->
+                <a href="{% url 'contact' %}" class="btn btn-secondary">
+                    Me contacter
+                </a>
+            </div>
+        {% else %}
+            <!-- Message par défaut si aucun profil n'existe -->
+            <h1 class="hero-title">Bienvenue sur mon Portfolio</h1>
+            <p class="hero-subtitle">Développeur Web passionné</p>
+        {% endif %}
+    </div>
+    
+    <!-- Image ou illustration du hero -->
+    <div class="hero-image">
+        {% if profile and profile.profile_picture %}
+            <!-- Affiche la photo de profil si elle existe -->
+            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.full_name }}">
+        {% else %}
+            <!-- Image par défaut si pas de photo -->
+            <img src="{% static 'images/default-avatar.png' %}" alt="Avatar">
+        {% endif %}
+    </div>
+</section>
+
+<!-- Section Projets mis en avant -->
+<section class="featured-projects">
+    <div class="container">
+        <!-- Titre de la section -->
+        <h2 class="section-title">Projets mis en avant</h2>
+        <p class="section-subtitle">Découvrez mes réalisations récentes</p>
+        
+        <!-- Grille de projets -->
+        <div class="projects-grid">
+            <!-- Boucle sur tous les projets mis en avant -->
+            {% for project in projects %}
+                <!-- Carte de projet -->
+                <div class="project-card">
+                    <!-- Image du projet -->
+                    <div class="project-image">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                        <!-- Overlay avec lien vers le détail -->
+                        <div class="project-overlay">
+                            <a href="{% url 'project_detail' project.pk %}" class="btn-view">
+                                Voir les détails
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu de la carte -->
+                    <div class="project-content">
+                        <!-- Titre du projet -->
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <!-- Description courte -->
+                        <p class="project-description">{{ project.description }}</p>
+                        
+                        <!-- Technologies utilisées -->
+                        <div class="project-tags">
+                            <!-- Sépare les technologies par virgule et affiche chacune -->
+                            {% for tech in project.technologies.split %}
+                                <span class="tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- Message si aucun projet n'existe -->
+                <p class="no-projects">Aucun projet disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Bouton pour voir tous les projets -->
+        <div class="section-cta">
+            <a href="{% url 'projects' %}" class="btn btn-outline">
+                Voir tous les projets
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Compétences -->
+<section class="skills-section">
+    <div class="container">
+        <!-- Titre de la section -->
+        <h2 class="section-title">Mes Compétences</h2>
+        <p class="section-subtitle">Technologies que je maîtrise</p>
+        
+        <!-- Grille des compétences -->
+        <div class="skills-grid">
+            <!-- Boucle sur toutes les compétences -->
+            {% for skill in skills %}
+                <!-- Carte de compétence -->
+                <div class="skill-card">
+                    <!-- Icône de la compétence -->
+                    {% if skill.icon %}
+                        <i class="{{ skill.icon }} skill-icon"></i>
+                    {% endif %}
+                    
+                    <!-- Nom de la compétence -->
+                    <h3 class="skill-name">{{ skill.name }}</h3>
+                    
+                    <!-- Catégorie -->
+                    <p class="skill-category">{{ skill.category }}</p>
+                    
+                    <!-- Barre de progression -->
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: {{ skill.level }}%;">
+                            <span class="skill-percentage">{{ skill.level }}%</span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- Message si aucune compétence n'existe -->
+                <p>Aucune compétence ajoutée pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Section Call to Action finale -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Intéressé par une collaboration ?</h2>
+        <p class="cta-text">N'hésitez pas à me contacter pour discuter de vos projets</p>
+        <a href="{% url 'contact' %}" class="btn btn-large">
+            Contactez-moi
+        </a>
+    </div>
+</section>
+
+{% endblock %}
