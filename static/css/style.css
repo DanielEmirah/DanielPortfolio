@@ -2,17 +2,22 @@
    VARIABLES CSS ET RESET
    ============================================ */
 
-/* Définition des variables de couleurs et espacements */
+/* Définition des variables de couleurs */
 :root {
-    /* Palette de couleurs */
-    --primary-color: #6366f1;      /* Couleur principale (indigo) */
-    --secondary-color: #8b5cf6;    /* Couleur secondaire (violet) */
-    --accent-color: #ec4899;       /* Couleur d'accentuation (rose) */
-    --dark-bg: #0f172a;            /* Fond sombre */
-    --light-bg: #f8fafc;           /* Fond clair */
-    --text-dark: #1e293b;          /* Texte sombre */
-    --text-light: #64748b;         /* Texte clair */
+    /* Palette de couleurs - Thème Noir et Vert */
+    --primary-color: #10b981;      /* Vert émeraude principal */
+    --secondary-color: #059669;    /* Vert foncé secondaire */
+    --accent-color: #34d399;       /* Vert clair accent */
+    --dark-bg: #0a0a0a;            /* Noir profond */
+    --darker-bg: #050505;          /* Noir très foncé */
+    --light-bg: #f0fdf4;           /* Vert très clair pour fond */
+    --card-bg: #1a1a1a;            /* Gris très foncé pour cartes */
+    --text-dark: #f9fafb;          /* Texte clair (inversé) */
+    --text-light: #9ca3af;         /* Texte gris clair */
+    --text-on-light: #1f2937;      /* Texte foncé sur fond clair */
     --white: #ffffff;              /* Blanc */
+    --success: #10b981;            /* Vert succès */
+    --danger: #ef4444;             /* Rouge danger */
     
     /* Espacements */
     --spacing-xs: 0.5rem;          /* 8px */
@@ -31,7 +36,8 @@
     
     /* Bordures et ombres */
     --border-radius: 12px;
-    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+    --box-shadow-hover: 0 20px 40px rgba(16, 185, 129, 0.25);
     --transition: all 0.3s ease;
 }
 
@@ -48,7 +54,7 @@ body {
     font-size: var(--font-size-base);
     line-height: 1.6;              /* Hauteur de ligne pour la lisibilité */
     color: var(--text-dark);
-    background-color: var(--light-bg);
+    background-color: var(--dark-bg);  /* Fond noir */
     overflow-x: hidden;             /* Évite le défilement horizontal */
 }
 
@@ -74,10 +80,41 @@ a:hover {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: var(--white);
-    box-shadow: var(--box-shadow);
+    background-color: rgba(10, 10, 10, 0.95);  /* Noir semi-transparent */
+    backdrop-filter: blur(10px);    /* Effet de flou */
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
     z-index: 1000;                  /* Au-dessus des autres éléments */
     padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Logo */
+.logo a {
+    font-size: var(--font-size-xl);
+    font-weight: 700;               /* Gras */
+    color: var(--primary-color);
+}
+
+/* Menu de navigation */
+.nav-menu {
+    display: flex;                  /* Affichage horizontal */
+    list-style: none;               /* Supprime les puces */
+    gap: var(--spacing-md);         /* Espacement entre les liens */
+}
+
+/* Liens du menu */
+.nav-menu a {
+    font-weight: 500;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    color: var(--text-dark);  /* Texte blanc par défaut */
+}
+
+/* Survol des liens du menu */
+.nav-menu a:hover {
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
 }
 
 /* Conteneur de la navigation */
@@ -196,10 +233,12 @@ a:hover {
 /* Texte mis en évidence */
 .highlight {
     color: var(--primary-color);
-    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
 }
 
 /* Sous-titre */
@@ -312,17 +351,19 @@ section {
 
 /* Carte de projet */
 .project-card {
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius);
     overflow: hidden;               /* Cache ce qui dépasse */
     box-shadow: var(--box-shadow);
     transition: var(--transition);
+    border: 1px solid rgba(16, 185, 129, 0.1);
 }
 
 /* Survol de la carte */
 .project-card:hover {
     transform: translateY(-10px);   /* Élève la carte */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--box-shadow-hover);
+    border-color: var(--primary-color);
 }
 
 /* Image du projet */
@@ -352,7 +393,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(99, 102, 241, 0.9);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -368,6 +409,7 @@ section {
 /* Contenu de la carte */
 .project-content {
     padding: var(--spacing-md);
+    background: var(--card-bg);
 }
 
 /* Titre du projet */
@@ -375,12 +417,22 @@ section {
     font-size: var(--font-size-xl);
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
+    color: var(--text-dark);
+}
+
+.project-title a {
+    color: var(--text-dark);
+}
+
+.project-title a:hover {
+    color: var(--primary-color);
 }
 
 /* Description du projet */
 .project-description {
     color: var(--text-light);
     margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
 }
 
 /* Tags des technologies */
@@ -394,10 +446,38 @@ section {
 .tag {
     display: inline-block;
     padding: 4px 12px;
-    background-color: var(--light-bg);
+    background-color: rgba(16, 185, 129, 0.1);
     color: var(--primary-color);
+    border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 20px;
     font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Message si aucun projet */
+.no-projects {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    border: 2px dashed rgba(16, 185, 129, 0.3);
+}
+
+.no-projects i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+.no-projects h3 {
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.no-projects p {
+    color: var(--text-light);
 }
 
 /* ============================================
@@ -1108,9 +1188,50 @@ section {
     color: var(--white);
 }
 
-/* ============================================
-   RESPONSIVE - NOUVEAUX ÉLÉMENTS
+/* CTA SECTION
    ============================================ */
+.cta-section {
+    background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    border-top: 1px solid rgba(16, 185, 129, 0.2);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.cta-title {
+    font-size: var(--font-size-2xl);
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+.cta-text {
+    font-size: var(--font-size-lg);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-lg);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: var(--dark-bg);
+}
 @media (max-width: 768px) {
     .project-detail-grid,
     .profile-grid,

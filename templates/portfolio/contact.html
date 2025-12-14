@@ -43,7 +43,8 @@
                             class="form-input"
                             placeholder="Votre nom"
                             required
-                            autocomplete="name">
+                            autocomplete="name"
+                            style="background-color: #1a1a1a !important; color: #f9fafb !important;">
                     </div>
                     
                     <!-- Champ Email -->
@@ -58,7 +59,8 @@
                             class="form-input"
                             placeholder="votre.email@exemple.com"
                             required
-                            autocomplete="email">
+                            autocomplete="email"
+                            style="background-color: #1a1a1a !important; color: #f9fafb !important;">
                     </div>
                     
                     <!-- Champ Sujet -->
@@ -72,7 +74,8 @@
                             name="subject" 
                             class="form-input"
                             placeholder="Objet de votre message"
-                            required>
+                            required
+                            style="background-color: #1a1a1a !important; color: #f9fafb !important;">
                     </div>
                     
                     <!-- Champ Message -->
@@ -86,7 +89,8 @@
                             class="form-textarea"
                             placeholder="Écrivez votre message ici..."
                             rows="6"
-                            required></textarea>
+                            required
+                            style="background-color: #1a1a1a !important; color: #f9fafb !important;"></textarea>
                     </div>
                     
                     <!-- Bouton d'envoi -->
@@ -117,7 +121,7 @@
                         </div>
                         <div class="info-content">
                             <h3 class="info-label">Email</h3>
-                            <a href="mailto:{{ profile.email }}" class="info-value">
+                            <a href="mailto:{{ profile.email }}" class="info-value" style="color: #10b981 !important;">
                                 {{ profile.email }}
                             </a>
                         </div>
@@ -131,7 +135,7 @@
                             </div>
                             <div class="info-content">
                                 <h3 class="info-label">Téléphone</h3>
-                                <a href="tel:{{ profile.phone }}" class="info-value">
+                                <a href="tel:{{ profile.phone }}" class="info-value" style="color: #10b981 !important;">
                                     {{ profile.phone }}
                                 </a>
                             </div>
