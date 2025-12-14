@@ -1,5 +1,8 @@
 // Attend que le DOM soit complètement chargé avant d'exécuter le code
 document.addEventListener("DOMContentLoaded", function () {
+  // Log pour confirmer que le script est chargé
+  console.log("✅ Portfolio JavaScript chargé avec succès!");
+
   // ============================================
   // MENU MOBILE HAMBURGER
   // ============================================
@@ -9,14 +12,28 @@ document.addEventListener("DOMContentLoaded", function () {
   // Sélectionne le menu de navigation
   const navMenu = document.querySelector(".nav-menu");
 
+  // Log pour vérifier si les éléments sont trouvés
+  console.log("Hamburger trouvé:", hamburger !== null);
+  console.log("Menu trouvé:", navMenu !== null);
+
   // Vérifie si les éléments existent avant d'ajouter l'événement
   if (hamburger && navMenu) {
     // Ajoute un événement au clic sur le hamburger
-    hamburger.addEventListener("click", function () {
+    hamburger.addEventListener("click", function (e) {
+      // Empêche la propagation de l'événement
+      e.preventDefault();
+      e.stopPropagation();
+
       // Toggle (bascule) la classe 'active' sur le menu
       navMenu.classList.toggle("active");
       // Toggle la classe 'active' sur le hamburger pour l'animation
       hamburger.classList.toggle("active");
+
+      // Log pour confirmer le clic
+      console.log(
+        "Menu hamburger cliqué - État:",
+        navMenu.classList.contains("active") ? "OUVERT" : "FERMÉ"
+      );
     });
 
     // Ferme le menu mobile quand on clique sur un lien
@@ -26,8 +43,20 @@ document.addEventListener("DOMContentLoaded", function () {
         // Retire la classe 'active' pour fermer le menu
         navMenu.classList.remove("active");
         hamburger.classList.remove("active");
+        console.log("Lien cliqué - Menu fermé");
       });
     });
+
+    // Ferme le menu si on clique en dehors
+    document.addEventListener("click", function (e) {
+      // Vérifie si le clic est en dehors du menu et du hamburger
+      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        navMenu.classList.remove("active");
+        hamburger.classList.remove("active");
+      }
+    });
+  } else {
+    console.warn("⚠️ Éléments hamburger ou menu non trouvés dans le DOM");
   }
 
   // ============================================
@@ -36,12 +65,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Sélectionne tous les boutons de fermeture des alertes
   const closeButtons = document.querySelectorAll(".close-btn");
+  console.log("Boutons de fermeture trouvés:", closeButtons.length);
 
   // Ajoute un événement de clic sur chaque bouton
   closeButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      // Trouve l'élément parent (l'alerte) et le supprime
-      this.parentElement.remove();
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      // Trouve l'élément parent (l'alerte) et le supprime avec animation
+      const alert = this.parentElement;
+      alert.style.opacity = "0";
+      alert.style.transform = "translateY(-20px)";
+      setTimeout(function () {
+        alert.remove();
+        console.log("Alerte fermée manuellement");
+      }, 300);
     });
   });
 
@@ -51,11 +88,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // SetTimeout exécute le code après un délai (5000ms = 5s)
     setTimeout(function () {
       // Ajoute une animation de disparition
+      alert.style.transition = "all 0.3s ease";
       alert.style.opacity = "0";
       alert.style.transform = "translateY(-20px)";
       // Supprime complètement l'élément après l'animation
       setTimeout(function () {
-        alert.remove();
+        if (alert.parentNode) {
+          alert.remove();
+          console.log("Alerte fermée automatiquement");
+        }
       }, 300); // Délai de 300ms pour l'animation
     }, 5000); // Attend 5 secondes avant de commencer
   });
@@ -99,7 +140,12 @@ document.addEventListener("DOMContentLoaded", function () {
   handleScrollAnimation();
 
   // Exécute la fonction à chaque scroll
-  window.addEventListener("scroll", handleScrollAnimation);
+  let scrollTimeout;
+  window.addEventListener("scroll", function () {
+    // Débounce pour optimiser les performances
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(handleScrollAnimation, 10);
+  });
 
   // ============================================
   // SMOOTH SCROLL POUR LES LIENS D'ANCRAGE
@@ -107,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Sélectionne tous les liens qui commencent par #
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  console.log("Liens d'ancrage trouvés:", anchorLinks.length);
 
   // Ajoute un événement de clic sur chaque lien
   anchorLinks.forEach((link) => {
@@ -126,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
           behavior: "smooth", // Animation fluide
           block: "start", // Aligne en haut
         });
+        console.log("Scroll vers:", targetId);
       }
     });
   });
@@ -136,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Sélectionne le formulaire de contact
   const contactForm = document.querySelector("#contact-form");
+  console.log("Formulaire de contact trouvé:", contactForm !== null);
 
   // Vérifie si le formulaire existe
   if (contactForm) {
@@ -162,6 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMsg.textContent = "Ce champ est requis";
             errorMsg.style.color = "red";
             errorMsg.style.fontSize = "0.875rem";
+            errorMsg.style.marginTop = "4px";
+            errorMsg.style.display = "block";
             // Insère le message après le champ
             field.parentNode.insertBefore(errorMsg, field.nextSibling);
           }
@@ -183,6 +234,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         // Affiche une alerte
         alert("Veuillez remplir tous les champs requis");
+        console.log("❌ Validation du formulaire échouée");
+      } else {
+        console.log("✅ Formulaire valide - Envoi en cours");
       }
     });
 
@@ -211,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const backToTopButton = document.createElement("button");
   backToTopButton.innerHTML = "↑"; // Flèche vers le haut
   backToTopButton.className = "back-to-top";
+  backToTopButton.setAttribute("aria-label", "Retour en haut");
   backToTopButton.style.cssText = `
         position: fixed;
         bottom: 20px;
@@ -218,25 +273,38 @@ document.addEventListener("DOMContentLoaded", function () {
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: var(--primary-color);
+        background-color: #6366f1;
         color: white;
         border: none;
         font-size: 24px;
         cursor: pointer;
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.3s, transform 0.3s;
         z-index: 1000;
         display: none;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
     `;
   // Ajoute le bouton au body
   document.body.appendChild(backToTopButton);
+  console.log("✅ Bouton retour en haut créé");
+
+  // Effet hover sur le bouton
+  backToTopButton.addEventListener("mouseenter", function () {
+    this.style.transform = "scale(1.1)";
+  });
+  backToTopButton.addEventListener("mouseleave", function () {
+    this.style.transform = "scale(1)";
+  });
 
   // Affiche le bouton quand on scroll vers le bas
   window.addEventListener("scroll", function () {
     // Affiche le bouton si on a scrollé plus de 300px
     if (window.pageYOffset > 300) {
       backToTopButton.style.display = "block";
-      backToTopButton.style.opacity = "1";
+      // Petit délai pour l'animation
+      setTimeout(function () {
+        backToTopButton.style.opacity = "1";
+      }, 10);
     } else {
       backToTopButton.style.opacity = "0";
       // Cache le bouton après l'animation
@@ -254,8 +322,24 @@ document.addEventListener("DOMContentLoaded", function () {
       top: 0, // Scroll vers le haut de la page
       behavior: "smooth", // Animation fluide
     });
+    console.log("Retour en haut de la page");
   });
+
+  // ============================================
+  // TEST FINAL DES FONCTIONNALITÉS
+  // ============================================
+
+  console.log("=== RAPPORT D'INITIALISATION ===");
+  console.log("Menu hamburger:", hamburger ? "✅" : "❌");
+  console.log("Navigation:", navMenu ? "✅" : "❌");
+  console.log("Formulaire contact:", contactForm ? "✅" : "❌");
+  console.log(
+    "Alertes:",
+    alerts.length > 0 ? `✅ (${alerts.length})` : "Aucune"
+  );
+  console.log("Bouton retour en haut:", "✅");
+  console.log("================================");
 });
 
-// Log pour confirmer que le script est chargé
-console.log("Portfolio JavaScript loaded successfully!");
+// Log final pour confirmer que le script est chargé
+console.log("📄 Script main.js chargé et prêt!");

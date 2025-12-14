@@ -1,5 +1,3 @@
-/* Feuille de style principale du portfolio */
-
 /* ============================================
    VARIABLES CSS ET RESET
    ============================================ */
@@ -125,6 +123,8 @@ a:hover {
     display: none;                  /* Caché par défaut (desktop) */
     flex-direction: column;
     cursor: pointer;
+    padding: var(--spacing-xs);
+    z-index: 1001;
 }
 
 /* Barres du hamburger */
@@ -134,6 +134,20 @@ a:hover {
     background-color: var(--text-dark);
     margin: 3px 0;
     transition: var(--transition);
+    border-radius: 2px;
+}
+
+/* Animation du hamburger en X quand actif */
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
 }
 
 /* ============================================
@@ -387,6 +401,107 @@ section {
 }
 
 /* ============================================
+   MESSAGES ET ALERTES
+   ============================================ */
+
+/* Conteneur des messages */
+.messages-container {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+/* Style des alertes */
+.alert {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+    animation: slideIn 0.3s ease;
+}
+
+/* Animation d'entrée des alertes */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Alerte de succès */
+.alert-success {
+    background-color: #10b981;
+    color: white;
+}
+
+/* Alerte d'erreur */
+.alert-error,
+.alert-danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Alerte d'avertissement */
+.alert-warning {
+    background-color: #f59e0b;
+    color: white;
+}
+
+/* Alerte d'information */
+.alert-info {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Bouton de fermeture des alertes */
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    margin-left: var(--spacing-sm);
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Animation fade-in pour les cartes */
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
@@ -398,14 +513,40 @@ section {
         text-align: center;
     }
     
-    /* Cache le menu desktop */
-    .nav-menu {
-        display: none;
-    }
-    
     /* Affiche le bouton hamburger */
     .hamburger {
         display: flex;
+    }
+    
+    /* Menu mobile - caché par défaut */
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--white);
+        width: 100%;
+        text-align: center;
+        transition: left 0.3s ease;
+        box-shadow: var(--box-shadow);
+        padding: var(--spacing-md) 0;
+        gap: 0;
+    }
+    
+    /* Menu mobile actif (visible) */
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    /* Liens du menu mobile */
+    .nav-menu li {
+        width: 100%;
+    }
+    
+    .nav-menu a {
+        display: block;
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 100%;
     }
     
     /* Réduit la taille des titres */
@@ -417,6 +558,13 @@ section {
     .hero-image {
         display: flex;
         justify-content: center;
+    }
+    
+    /* Messages responsive */
+    .messages-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
     }
 }
 
