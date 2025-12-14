@@ -502,8 +502,61 @@ section {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   FOOTER
    ============================================ */
+
+/* Pied de page fixe en bas */
+.footer {
+    background-color: var(--dark-bg);
+    color: var(--white);
+    padding: var(--spacing-lg) 0;
+    margin-top: var(--spacing-xl);
+}
+
+/* Contenu du footer centré */
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Liens réseaux sociaux du footer */
+.footer .social-links {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer .social-links a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 1.125rem;
+    transition: var(--transition);
+}
+
+.footer .social-links a:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* Copyright */
+.copyright {
+    font-size: 0.875rem;
+    opacity: 0.8;
+    margin: 0;
+}
 
 /* Tablettes et petits écrans */
 @media (max-width: 768px) {
