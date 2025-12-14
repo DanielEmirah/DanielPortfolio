@@ -1,0 +1,180 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+<!-- Définit le titre de la page -->
+{% block title %}Mes Projets{% endblock %}
+
+<!-- Contenu principal de la page des projets -->
+{% block content %}
+
+<!-- Section Header de la page -->
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Mes Projets</h1>
+        <p class="page-description">
+            Découvrez mes réalisations et projets sur lesquels j'ai travaillé
+        </p>
+    </div>
+</section>
+
+<!-- Section principale avec la grille de projets -->
+<section class="projects-section">
+    <div class="container">
+        
+        <!-- Statistiques rapides -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">{{ projects.paginator.count }}</span>
+                <span class="stat-label">Projets</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ projects.paginator.num_pages }}</span>
+                <span class="stat-label">Pages</span>
+            </div>
+        </div>
+        
+        <!-- Grille des projets -->
+        <div class="projects-grid">
+            <!-- Boucle sur tous les projets de la page -->
+            {% for project in projects %}
+                <!-- Carte de projet -->
+                <article class="project-card">
+                    <!-- Image du projet avec lien -->
+                    <a href="{% url 'project_detail' project.pk %}" class="project-image-link">
+                        <div class="project-image">
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy">
+                            <!-- Badge si projet mis en avant -->
+                            {% if project.is_featured %}
+                                <span class="featured-badge">⭐ Mis en avant</span>
+                            {% endif %}
+                            <!-- Overlay au survol -->
+                            <div class="project-overlay">
+                                <span class="view-project-btn">Voir les détails →</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Contenu de la carte -->
+                    <div class="project-content">
+                        <!-- Date de création -->
+                        <div class="project-meta">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i>
+                                {{ project.created_date|date:"d M Y" }}
+                            </span>
+                        </div>
+                        
+                        <!-- Titre du projet avec lien -->
+                        <h2 class="project-title">
+                            <a href="{% url 'project_detail' project.pk %}">
+                                {{ project.title }}
+                            </a>
+                        </h2>
+                        
+                        <!-- Description courte -->
+                        <p class="project-description">
+                            {{ project.description }}
+                        </p>
+                        
+                        <!-- Technologies utilisées -->
+                        <div class="project-tags">
+                            {% for tech in project.technologies.split %}
+                                <span class="tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Liens du projet -->
+                        <div class="project-links">
+                            {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" class="project-link" rel="noopener">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                            {% endif %}
+                            {% if project.project_url %}
+                                <a href="{{ project.project_url }}" target="_blank" class="project-link" rel="noopener">
+                                    <i class="fas fa-external-link-alt"></i> Démo
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <!-- Message si aucun projet n'existe -->
+                <div class="no-projects">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>Aucun projet disponible</h3>
+                    <p>Les projets seront bientôt ajoutés. Revenez plus tard !</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if projects.has_other_pages %}
+            <nav class="pagination" aria-label="Navigation des pages">
+                <ul class="pagination-list">
+                    <!-- Bouton Précédent -->
+                    {% if projects.has_previous %}
+                        <li class="pagination-item">
+                            <a href="?page=1" class="pagination-link" aria-label="Première page">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="?page={{ projects.previous_page_number }}" class="pagination-link" aria-label="Page précédente">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    <!-- Numéros de pages -->
+                    {% for num in projects.paginator.page_range %}
+                        {% if projects.number == num %}
+                            <!-- Page actuelle -->
+                            <li class="pagination-item">
+                                <span class="pagination-link active" aria-current="page">{{ num }}</span>
+                            </li>
+                        {% elif num > projects.number|add:'-3' and num < projects.number|add:'3' %}
+                            <!-- Pages proches -->
+                            <li class="pagination-item">
+                                <a href="?page={{ num }}" class="pagination-link">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <!-- Bouton Suivant -->
+                    {% if projects.has_next %}
+                        <li class="pagination-item">
+                            <a href="?page={{ projects.next_page_number }}" class="pagination-link" aria-label="Page suivante">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="?page={{ projects.paginator.num_pages }}" class="pagination-link" aria-label="Dernière page">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+                <!-- Info de pagination -->
+                <p class="pagination-info">
+                    Page {{ projects.number }} sur {{ projects.paginator.num_pages }}
+                </p>
+            </nav>
+        {% endif %}
+        
+    </div>
+</section>
+
+<!-- Section Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Vous avez un projet en tête ?</h2>
+        <p class="cta-text">Discutons-en ensemble !</p>
+        <a href="{% url 'contact' %}" class="btn btn-large btn-primary">
+            Contactez-moi
+        </a>
+    </div>
+</section>
+
+{% endblock %}

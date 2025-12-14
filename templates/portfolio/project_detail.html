@@ -1,0 +1,195 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+<!-- Définit le titre de la page avec le nom du projet -->
+{% block title %}{{ project.title }}{% endblock %}
+
+<!-- Contenu principal du détail du projet -->
+{% block content %}
+
+<!-- Section Hero du projet -->
+<section class="project-hero">
+    <div class="container">
+        <!-- Fil d'Ariane (Breadcrumb) -->
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="{% url 'home' %}">Accueil</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'projects' %}">Projets</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">{{ project.title }}</span>
+        </nav>
+        
+        <!-- En-tête du projet -->
+        <div class="project-header">
+            <h1 class="project-hero-title">{{ project.title }}</h1>
+            <p class="project-hero-description">{{ project.description }}</p>
+            
+            <!-- Métadonnées du projet -->
+            <div class="project-meta-bar">
+                <span class="meta-item">
+                    <i class="far fa-calendar"></i>
+                    {{ project.created_date|date:"d F Y" }}
+                </span>
+                {% if project.is_featured %}
+                    <span class="meta-item featured">
+                        <i class="fas fa-star"></i>
+                        Projet mis en avant
+                    </span>
+                {% endif %}
+            </div>
+            
+            <!-- Boutons d'action -->
+            <div class="project-actions">
+                {% if project.project_url %}
+                    <a href="{{ project.project_url }}" target="_blank" class="btn btn-primary" rel="noopener">
+                        <i class="fas fa-external-link-alt"></i> Voir la démo
+                    </a>
+                {% endif %}
+                {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-secondary" rel="noopener">
+                        <i class="fab fa-github"></i> Code source
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Image principale du projet -->
+<section class="project-image-section">
+    <div class="container">
+        <div class="project-main-image">
+            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+        </div>
+    </div>
+</section>
+
+<!-- Détails du projet -->
+<section class="project-details">
+    <div class="container">
+        <div class="project-detail-grid">
+            
+            <!-- Colonne principale : Description -->
+            <div class="project-main-content">
+                <h2 class="section-subtitle">À propos du projet</h2>
+                <div class="project-detailed-description">
+                    <!-- Affiche la description détaillée avec retours à la ligne -->
+                    {{ project.detailed_description|linebreaks }}
+                </div>
+            </div>
+            
+            <!-- Sidebar : Informations techniques -->
+            <aside class="project-sidebar">
+                <!-- Technologies utilisées -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-code"></i> Technologies
+                    </h3>
+                    <div class="tech-list">
+                        {% for tech in project.technologies.split %}
+                            <span class="tech-badge">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Liens -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-link"></i> Liens
+                    </h3>
+                    <ul class="links-list">
+                        {% if project.project_url %}
+                            <li>
+                                <a href="{{ project.project_url }}" target="_blank" rel="noopener">
+                                    <i class="fas fa-globe"></i>
+                                    Site web
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if project.github_url %}
+                            <li>
+                                <a href="{{ project.github_url }}" target="_blank" rel="noopener">
+                                    <i class="fab fa-github"></i>
+                                    Dépôt GitHub
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                <!-- Date -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="far fa-calendar-alt"></i> Date
+                    </h3>
+                    <p class="sidebar-text">{{ project.created_date|date:"F Y" }}</p>
+                </div>
+                
+                <!-- Partage (optionnel) -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-share-alt"></i> Partager
+                    </h3>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text={{ project.title }}&url={{ request.build_absolute_uri }}" 
+                           target="_blank" 
+                           class="share-btn twitter"
+                           aria-label="Partager sur Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                           target="_blank" 
+                           class="share-btn linkedin"
+                           aria-label="Partager sur LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" 
+                           class="share-btn facebook"
+                           aria-label="Partager sur Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Projets similaires -->
+{% if related_projects %}
+<section class="related-projects">
+    <div class="container">
+        <h2 class="section-title">Autres projets</h2>
+        <p class="section-subtitle">Découvrez d'autres réalisations</p>
+        
+        <div class="related-projects-grid">
+            {% for related in related_projects %}
+                <article class="related-project-card">
+                    <a href="{% url 'project_detail' related.pk %}" class="related-project-link">
+                        <div class="related-project-image">
+                            <img src="{{ related.image.url }}" alt="{{ related.title }}" loading="lazy">
+                        </div>
+                        <div class="related-project-content">
+                            <h3 class="related-project-title">{{ related.title }}</h3>
+                            <p class="related-project-description">{{ related.description|truncatewords:15 }}</p>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Navigation entre projets -->
+<section class="project-navigation">
+    <div class="container">
+        <a href="{% url 'projects' %}" class="btn btn-outline">
+            <i class="fas fa-arrow-left"></i> Retour aux projets
+        </a>
+    </div>
+</section>
+
+{% endblock %}

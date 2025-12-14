@@ -1,0 +1,271 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+<!-- Définit le titre de la page -->
+{% block title %}Contact - Portfolio{% endblock %}
+
+<!-- Contenu principal de la page de contact -->
+{% block content %}
+
+<!-- Section Hero Contact -->
+<section class="contact-hero">
+    <div class="container">
+        <h1 class="page-title">Contactez-moi</h1>
+        <p class="page-description">
+            Une question ? Un projet ? N'hésitez pas à me contacter !
+        </p>
+    </div>
+</section>
+
+<!-- Section principale de contact -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            
+            <!-- Colonne formulaire -->
+            <div class="contact-form-container">
+                <h2 class="form-title">Envoyez-moi un message</h2>
+                
+                <!-- Formulaire de contact -->
+                <form method="POST" id="contact-form" class="contact-form" novalidate>
+                    <!-- Token CSRF pour la sécurité Django -->
+                    {% csrf_token %}
+                    
+                    <!-- Champ Nom -->
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            Nom complet <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            class="form-input"
+                            placeholder="Votre nom"
+                            required
+                            autocomplete="name">
+                    </div>
+                    
+                    <!-- Champ Email -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            Email <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input"
+                            placeholder="votre.email@exemple.com"
+                            required
+                            autocomplete="email">
+                    </div>
+                    
+                    <!-- Champ Sujet -->
+                    <div class="form-group">
+                        <label for="subject" class="form-label">
+                            Sujet <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="subject" 
+                            name="subject" 
+                            class="form-input"
+                            placeholder="Objet de votre message"
+                            required>
+                    </div>
+                    
+                    <!-- Champ Message -->
+                    <div class="form-group">
+                        <label for="message" class="form-label">
+                            Message <span class="required">*</span>
+                        </label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            class="form-textarea"
+                            placeholder="Écrivez votre message ici..."
+                            rows="6"
+                            required></textarea>
+                    </div>
+                    
+                    <!-- Bouton d'envoi -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer le message
+                        </button>
+                    </div>
+                    
+                    <!-- Note -->
+                    <p class="form-note">
+                        <i class="fas fa-info-circle"></i>
+                        Tous les champs marqués d'un <span class="required">*</span> sont obligatoires
+                    </p>
+                </form>
+            </div>
+            
+            <!-- Colonne informations de contact -->
+            <div class="contact-info-container">
+                <h2 class="info-title">Informations de contact</h2>
+                
+                {% if profile %}
+                    <!-- Email -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-label">Email</h3>
+                            <a href="mailto:{{ profile.email }}" class="info-value">
+                                {{ profile.email }}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Téléphone -->
+                    {% if profile.phone %}
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3 class="info-label">Téléphone</h3>
+                                <a href="tel:{{ profile.phone }}" class="info-value">
+                                    {{ profile.phone }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Réseaux sociaux -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-label">Suivez-moi</h3>
+                            <div class="social-links-contact">
+                                {% if profile.github_link %}
+                                    <a href="{{ profile.github_link }}" 
+                                       target="_blank" 
+                                       class="social-link"
+                                       aria-label="GitHub">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                {% endif %}
+                                {% if profile.linkedin_link %}
+                                    <a href="{{ profile.linkedin_link }}" 
+                                       target="_blank" 
+                                       class="social-link"
+                                       aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                {% endif %}
+                                {% if profile.twitter_link %}
+                                    <a href="{{ profile.twitter_link }}" 
+                                       target="_blank" 
+                                       class="social-link"
+                                       aria-label="Twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- Informations par défaut si pas de profil -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-label">Email</h3>
+                            <p class="info-value">contact@monportfolio.com</p>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <!-- Carte avec icône décorative -->
+                <div class="contact-illustration">
+                    <i class="fas fa-comments illustration-icon"></i>
+                    <p class="illustration-text">
+                        Je réponds généralement dans les 24 heures
+                    </p>
+                </div>
+                
+                <!-- Horaires de disponibilité -->
+                <div class="availability-card">
+                    <h3 class="availability-title">
+                        <i class="far fa-clock"></i>
+                        Disponibilité
+                    </h3>
+                    <ul class="availability-list">
+                        <li>Lundi - Vendredi : 9h - 18h</li>
+                        <li>Weekend : Sur rendez-vous</li>
+                        <li>Fuseau horaire : UTC+3 (Madagascar)</li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Section FAQ (optionnel) -->
+<section class="contact-faq">
+    <div class="container">
+        <h2 class="section-title">Questions fréquentes</h2>
+        
+        <div class="faq-grid">
+            <!-- Question 1 -->
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    Quel est votre délai de réponse ?
+                </h3>
+                <p class="faq-answer">
+                    Je réponds généralement sous 24 heures pendant les jours ouvrables.
+                </p>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    Quels types de projets acceptez-vous ?
+                </h3>
+                <p class="faq-answer">
+                    Je travaille sur des projets web (sites vitrines, applications web, APIs) 
+                    et je suis ouvert à de nouvelles opportunités.
+                </p>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    Proposez-vous des devis gratuits ?
+                </h3>
+                <p class="faq-answer">
+                    Oui ! Contactez-moi avec les détails de votre projet et je vous fournirai 
+                    un devis gratuit et sans engagement.
+                </p>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="faq-item">
+                <h3 class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    Travaillez-vous à distance ?
+                </h3>
+                <p class="faq-answer">
+                    Absolument ! Je travaille avec des clients du monde entier grâce aux 
+                    outils de communication modernes.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

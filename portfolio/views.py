@@ -70,7 +70,6 @@ def project_detail(request, pk):
     return render(request, 'portfolio/project_detail.html', context)
 
 
-# Vue pour la page "À propos"
 def about(request):
     """
     Affiche la page À propos avec les informations du profil et les compétences
@@ -81,10 +80,14 @@ def about(request):
     # Récupère toutes les compétences
     skills = Skill.objects.all()
     
+    # Compte le nombre de projets
+    projects_count = Project.objects.count()
+    
     # Prépare le contexte à passer au template
     context = {
-        'profile': profile,  # Informations du profil
-        'skills': skills,    # Liste des compétences
+        'profile': profile,
+        'skills': skills,
+        'projects_count': projects_count,
     }
     return render(request, 'portfolio/about.html', context)
 

@@ -1,0 +1,198 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+<!-- Définit le titre de la page -->
+{% block title %}À propos{% endblock %}
+
+<!-- Contenu principal de la page À propos -->
+{% block content %}
+
+<!-- Section Hero À propos -->
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-content">
+            <h1 class="page-title">À propos de moi</h1>
+            <p class="page-description">
+                Découvrez mon parcours, mes compétences et ma passion pour le développement
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Section principale avec profil -->
+{% if profile %}
+<section class="about-profile">
+    <div class="container">
+        <div class="profile-grid">
+            
+            <!-- Colonne image -->
+            <div class="profile-image-container">
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" 
+                         alt="{{ profile.full_name }}" 
+                         class="profile-image">
+                {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" 
+                         alt="Avatar par défaut" 
+                         class="profile-image">
+                {% endif %}
+                
+                <!-- Liens réseaux sociaux -->
+                <div class="profile-social">
+                    {% if profile.github_link %}
+                        <a href="{{ profile.github_link }}" target="_blank" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    {% endif %}
+                    {% if profile.linkedin_link %}
+                        <a href="{{ profile.linkedin_link }}" target="_blank" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    {% endif %}
+                    {% if profile.twitter_link %}
+                        <a href="{{ profile.twitter_link }}" target="_blank" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Bouton CV -->
+                {% if profile.cv_file %}
+                    <a href="{{ profile.cv_file.url }}" 
+                       download 
+                       class="btn btn-primary btn-download-cv">
+                        <i class="fas fa-download"></i> Télécharger mon CV
+                    </a>
+                {% endif %}
+            </div>
+            
+            <!-- Colonne contenu -->
+            <div class="profile-content">
+                <h2 class="profile-name">{{ profile.full_name }}</h2>
+                <p class="profile-title">{{ profile.title }}</p>
+                
+                <div class="profile-bio">
+                    {{ profile.bio|linebreaks }}
+                </div>
+                
+                <!-- Informations de contact -->
+                <div class="profile-contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                    </div>
+                    {% if profile.phone %}
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:{{ profile.phone }}">{{ profile.phone }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Section Compétences -->
+<section class="about-skills">
+    <div class="container">
+        <h2 class="section-title">Mes Compétences</h2>
+        <p class="section-subtitle">Technologies et outils que je maîtrise</p>
+        
+        {% if skills %}
+            <!-- Grouper les compétences par catégorie -->
+            {% regroup skills by category as skills_by_category %}
+            
+            <div class="skills-categories">
+                {% for category in skills_by_category %}
+                    <div class="skill-category-section">
+                        <h3 class="category-title">
+                            <i class="fas fa-layer-group"></i>
+                            {{ category.grouper }}
+                        </h3>
+                        
+                        <div class="skills-list">
+                            {% for skill in category.list %}
+                                <div class="skill-item">
+                                    <!-- Icône de la compétence -->
+                                    <div class="skill-header">
+                                        {% if skill.icon %}
+                                            <i class="{{ skill.icon }} skill-icon"></i>
+                                        {% else %}
+                                            <i class="fas fa-code skill-icon"></i>
+                                        {% endif %}
+                                        <span class="skill-name">{{ skill.name }}</span>
+                                    </div>
+                                    
+                                    <!-- Barre de progression -->
+                                    <div class="skill-bar-container">
+                                        <div class="skill-bar-bg">
+                                            <div class="skill-bar-fill" 
+                                                 style="width: {{ skill.level }}%;"
+                                                 role="progressbar"
+                                                 aria-valuenow="{{ skill.level }}"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="skill-percentage">{{ skill.level }}%</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-skills">Aucune compétence ajoutée pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Section Statistiques (optionnel - à personnaliser) -->
+<section class="about-stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-project-diagram stat-icon"></i>
+                <h3 class="stat-value">{{ projects_count|default:"0" }}</h3>
+                <p class="stat-label">Projets réalisés</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-code stat-icon"></i>
+                <h3 class="stat-value">{{ skills|length }}</h3>
+                <p class="stat-label">Compétences</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-coffee stat-icon"></i>
+                <h3 class="stat-value">∞</h3>
+                <p class="stat-label">Cafés bus</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-smile stat-icon"></i>
+                <h3 class="stat-value">100%</h3>
+                <p class="stat-label">Passion</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Travaillons ensemble !</h2>
+        <p class="cta-text">Vous avez un projet ? Contactez-moi pour en discuter</p>
+        <div class="cta-buttons">
+            <a href="{% url 'contact' %}" class="btn btn-large btn-primary">
+                Me contacter
+            </a>
+            <a href="{% url 'projects' %}" class="btn btn-large btn-outline">
+                Voir mes projets
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
