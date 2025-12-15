@@ -1078,7 +1078,7 @@ section {
 }
 
 .contact-form {
-    background: var(--white);
+    background: var(--secondary-color);
     padding: var(--spacing-lg);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -1136,7 +1136,7 @@ section {
 .info-item {
     display: flex;
     gap: var(--spacing-sm);
-    background: var(--white);
+    background: var(--card-bg);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
