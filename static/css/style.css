@@ -1078,7 +1078,7 @@ section {
 }
 
 .contact-form {
-    background: var(--secondary-color);
+    background: var(--card-bg);
     padding: var(--spacing-lg);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
