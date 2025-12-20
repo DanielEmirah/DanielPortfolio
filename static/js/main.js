@@ -3,6 +3,83 @@
 
   console.log("=== CHARGEMENT DU SCRIPT ===");
 
+  // ============================================
+  // EFFET MATRIX EN ARRIÈRE-PLAN
+  // ============================================
+  function initMatrixEffect() {
+    // Récupère le canvas
+    var canvas = document.getElementById("matrix-canvas");
+    if (!canvas) {
+      console.log("⚠️ Canvas Matrix non trouvé");
+      return;
+    }
+
+    var ctx = canvas.getContext("2d");
+
+    // Redimensionne le canvas à la taille de la fenêtre
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Caractères à afficher (katakana + chiffres + symboles)
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*(){}[]<>/\\|~`";
+    chars = chars.split("");
+
+    // Taille de la police
+    var fontSize = 14;
+    var columns = canvas.width / fontSize;
+
+    // Tableau pour stocker la position Y de chaque colonne
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+      drops[i] = Math.floor((Math.random() * canvas.height) / fontSize);
+    }
+
+    // Fonction d'animation
+    function draw() {
+      // Fond noir semi-transparent pour effet de traînée
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Couleur verte pour le texte
+      ctx.fillStyle = "#10b981";
+      ctx.font = fontSize + "px monospace";
+
+      // Boucle sur chaque colonne
+      for (var i = 0; i < drops.length; i++) {
+        // Caractère aléatoire
+        var text = chars[Math.floor(Math.random() * chars.length)];
+
+        // Dessine le caractère
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        // Réinitialise la colonne si elle atteint le bas
+        // Ou aléatoirement pour plus de variété
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        // Incrémente la position Y
+        drops[i]++;
+      }
+    }
+
+    // Lance l'animation à 30 FPS
+    setInterval(draw, 33);
+
+    // Redimensionne le canvas quand la fenêtre change de taille
+    window.addEventListener("resize", function () {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = canvas.width / fontSize;
+      drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = Math.floor((Math.random() * canvas.height) / fontSize);
+      }
+    });
+
+    console.log("✅ Effet Matrix initialisé");
+  }
+
   // Attend que le DOM soit complètement chargé
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
@@ -13,7 +90,10 @@
   function init() {
     console.log("✅ DOM chargé - Initialisation...");
 
-    // Initialise toutes les fonctionnalités
+    // Initialise l'effet Matrix en premier
+    initMatrixEffect();
+
+    // Initialise toutes les autres fonctionnalités
     initHamburgerMenu();
     initAlerts();
     initBackToTop();
