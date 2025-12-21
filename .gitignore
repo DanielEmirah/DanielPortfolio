@@ -1,9 +1,29 @@
-﻿# Ignorer les fichiers compilés Python
+﻿# Variables d'environnement
+.env.local
+*.env.local
+.env
+*.env
+
+# Base de données locale
+db.sqlite3
+*.sqlite3
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
 
-# Ignorer l’environnement virtuel
+# Environnement virtuel (votre dossier existe déjà)
 .env/
+venv/
 
-# Autres fichiers inutiles
-*.log
+# Fichiers statiques collectés
+/staticfiles/
+
+# Fichiers médias
+/media/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

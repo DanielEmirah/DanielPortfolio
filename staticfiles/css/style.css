@@ -48,6 +48,18 @@
     box-sizing: border-box;        /* Inclut padding et border dans la largeur */
 }
 
+/* Canvas Matrix en arrière-plan */
+#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;                   /* Derrière tout le contenu */
+    pointer-events: none;          /* N'intercepte pas les clics */
+    opacity: 0.15;                 /* Transparence pour ne pas gêner la lecture */
+}
+
 /* Styles de base pour le body */
 body {
     font-family: var(--font-family);
